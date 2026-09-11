@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+@theme {
+  /* — LED Lab palette (dark default) — */
+  --color-background: #0a0a0b;
+  --color-surface: #141417;
+  --color-surface-2: #1c1c22;
+  --color-line: #26262c;
+  --color-line-bright: #34343c;
+  --color-foreground: #ededf0;
+  --color-muted: #94949e;
+  --color-accent: #c8f550;
+  --color-accent-text: #c8f550;
+  --color-accent-dim: #8ea83c;
+  --color-on-accent: #101006;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "Cascadia Code", Consolas, monospace;
+  --font-fa: "Vazirmatn Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --ease-soft: cubic-bezier(0.2, 0, 0.2, 1);
+
+  /* Glow — light is a state. Compiles to shadow-* / drop-shadow-* / inset-shadow-* utilities. */
+  --shadow-glow-sm: 0 0 12px rgb(200 245 80 / 0.18);
+  --shadow-glow-md: 0 0 24px rgb(200 245 80 / 0.22);
+  --shadow-glow-lg: 0 0 40px rgb(200 245 80 / 0.3);
+  --drop-shadow-glow: 0 0 6px rgb(200 245 80 / 0.35);
+  --drop-shadow-glow-lg: 0 0 24px rgb(200 245 80 / 0.35);
+  --inset-shadow-edge: inset 0 1px 0 rgb(255 255 255 / 0.04);
+
+  --animate-fade-in: fade-in 180ms var(--ease-soft) both;
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Motion tokens (used by custom CSS below) */
+:root {
+  --duration-fast: 140ms;
+  --duration-normal: 200ms;
+  --duration-panel: 240ms;
+}
+
+/* Light theme overrides — unlayered so they beat the theme layer */
+:root[data-theme="light"] {
+  --color-background: #faf9f5;
+  --color-surface: #ffffff;
+  --color-surface-2: #f1efe9;
+  --color-line: #e4e4de;
+  --color-line-bright: #d6d6ce;
+  --color-foreground: #17171c;
+  --color-muted: #6e6e78;
+  --color-accent: #65a30d;
+  --color-accent-text: #4d7c0f;
+  --color-accent-dim: #a5c95a;
+  --color-on-accent: #1a2005;
+
+  --shadow-glow-sm: 0 0 12px rgb(132 204 22 / 0.06);
+  --shadow-glow-md: 0 0 24px rgb(132 204 22 / 0.1);
+  --shadow-glow-lg: 0 0 40px rgb(132 204 22 / 0.14);
+  --drop-shadow-glow: 0 0 6px rgb(132 204 22 / 0.18);
+  --drop-shadow-glow-lg: 0 0 24px rgb(132 204 22 / 0.16);
+  --inset-shadow-edge: inset 0 1px 0 rgb(255 255 255 / 0.8);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+html {
+  font-family: var(--font-sans);
+}
+html[lang="fa"] {
+  font-family: var(--font-fa);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Faint accent halo at the top of the app (dark only, very subtle) */
+:root[data-theme="dark"] body {
+  background-image: radial-gradient(1000px 480px at 50% -12%, rgb(200 245 80 / 0.05), transparent 62%);
+}
+
+:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--color-accent) 60%, transparent);
+  outline-offset: 2px;
+}
+
+/* Inline SVG sizing (injected icons) */
+.icon-svg > svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* Stroke override for stroke-based collections (author CSS beats presentation attributes) */
+.icon-stroked > svg {
+  stroke-width: var(--icon-stroke, 2);
+}
+
+/* Dot-grid pegboard behind the icon grid (dark only — light keeps clean paper) */
+:root[data-theme="dark"] .grid-canvas {
+  background-image: radial-gradient(rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Preview panel slide-in (direction-aware) */
+.preview-panel {
+  animation: panel-in-ltr var(--duration-panel) var(--ease-soft);
+}
+html[dir="rtl"] .preview-panel {
+  animation-name: panel-in-rtl;
+}
+@keyframes panel-in-ltr {
+  from {
+    translate: 100% 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+@keyframes panel-in-rtl {
+  from {
+    translate: -100% 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+.preview-backdrop {
+  animation: overlay-in var(--duration-normal) var(--ease-soft);
+}
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+input[type="range"] {
+  accent-color: var(--color-accent);
+}
+
+/* Subtle scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+
+/* Touch devices have no hover — keep card actions visible */
+@media (hover: none) {
+  .card-actions {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

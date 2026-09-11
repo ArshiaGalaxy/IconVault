@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IconVault</title>
+    <script>
+      // Apply persisted theme/language before first paint.
+      ;(function () {
+        try {
+          var t = localStorage.getItem('iv:theme')
+          if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
+          var l = localStorage.getItem('iv:lang')
+          if (l === 'fa' || l === 'en') {
+            document.documentElement.lang = l
+            document.documentElement.dir = l === 'fa' ? 'rtl' : 'ltr'
+          }
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
