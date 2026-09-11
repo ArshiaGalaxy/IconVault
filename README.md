@@ -1,78 +1,107 @@
 # IconVault
 
-**English | [فارسی](README_FA.md)**
+> A fast, offline-first icon library for discovering, customizing, and copying SVG icons.
 
-A small, offline icon browser. Search → browse → preview → customize → copy/download SVGs from **Lucide**, **Tabler** and **Phosphor**. React + TypeScript + Vite + Tailwind CSS v4. No backend, no API, no CDN — everything is bundled locally.
+**8,700+ icons · Offline · RTL · English + فارسی · Zero backend**
 
-## Features
+IconVault brings popular open-source icon libraries into one fast, focused workspace. Search, preview, customize, copy, and download icons without relying on an online service.
 
-- **Search** across 8,723 icons by name and tags — in English or Persian (ranked: exact → prefix → includes → tag/keyword)
-- **Browse by collection** — sidebar + filter chips with live counts
-- **Preview panel** — glass side panel with live customization: size 16–128px, preset + custom color, stroke width 0.5–3 (Lucide/Tabler only; hidden for Phosphor, which is fill-based)
-- **Copy SVG** (with "Copied" feedback, plus quick-copy from cards) and **Download SVG** — exports are self-contained with your chosen size/color/stroke
-- **Favorites** — persisted in `localStorage`
-- **Dark / light theme** + **English / فارسی** with full RTL — both persisted and applied before first paint
-- **Accessible** — WCAG-checked token pairs, visible focus rings, dialog semantics with focus trap, `prefers-reduced-motion` respected
+## ✨ Features
 
-## Design: "LED Lab"
+- 🔎 **Instant Search** — Quickly find icons across multiple libraries
+- 🌐 **English + فارسی** — Full bilingual and RTL support
+- 🎨 **Icon Customization** — Adjust size, color, and stroke
+- 📋 **Copy SVG** — Copy icons directly to your clipboard
+- ⬇️ **Download SVG** — Save customized icons locally
+- ❤️ **Favorites** — Keep frequently used icons close at hand
+- 🌙 **Dark & Light Mode**
+- ⚡ **Offline-first** — No account, backend, or API required
+- ♿ **Accessible** — Designed with accessibility and reduced-motion support in mind
+- 📦 **8,700+ Icons** from Lucide, Tabler, and Phosphor
 
-Near-black chassis, a sparing lime accent, and light used as a *state*:
+## 🎨 Icon Libraries
 
-- Glow is tokenized (`shadow-glow-sm/md/lg`, `drop-shadow-glow*`) with a strict budget: brand, active nav item, focused search, primary button, panel hero — nothing else glows
-- Icons **power on** at hover (80% → 100% brightness plus a glyph-shaped bloom)
-- **JetBrains Mono** is the data face (icon names, counts, values); Inter is the UI voice; Vazirmatn for Persian
-- One glass surface: the preview panel (`backdrop-blur` + machined edge-light)
-- Dark-only dot-grid canvas behind the icon grid; the light theme is warm paper with a deeper lime
-- Direction-aware RTL: the panel and drawer flip sides; logical CSS properties everywhere
+| Library   |     Icons |
+| --------- | --------: |
+| Tabler    |     5,130 |
+| Lucide    |     2,081 |
+| Phosphor  |     1,512 |
+| **Total** | **8,723** |
 
-## Setup
+## 🚀 Getting Started
 
-Requires Node ≥ 22.12.
+### Requirements
+
+- Node.js 18+
+- npm
+
+### Installation
 
 ```bash
+git clone https://github.com/ArshiaGalaxy/IconVault.git
+cd IconVault
 npm install
-npm run icons:build   # copies SVGs + metadata from node_modules into public/icons (once)
 npm run dev
 ```
 
-## Scripts
+Open the local development server shown in your terminal.
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the dev server |
-| `npm run icons:build [-- --force]` | Regenerate `public/icons/` from the bundled packages (skipped automatically if already built) |
-| `npm run build` | Type-check + production build |
-| `npm run preview` | Preview the production build |
+### Production Build
 
-`public/icons/` is generated and gitignored — run `icons:build` after a fresh clone or after updating the icon packages.
-
-## Project structure
-
+```bash
+npm run build
+npm run preview
 ```
-scripts/build-icons.mjs      icon pipeline: node_modules → public/icons (+ metadata.json)
-public/icons/                generated SVGs + metadata (gitignored)
+
+## 🛠️ Tech Stack
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Local browser storage
+- SVG-based icon rendering
+
+## 🧠 Design Philosophy
+
+IconVault is intentionally focused.
+
+It does not require accounts, cloud storage, social features, or a backend. The goal is simple:
+
+> **Find an icon. Make it yours. Copy it.**
+
+The interface follows a dark, technical **LED Lab** visual language with restrained motion, focused interactions, and a strong emphasis on speed.
+
+## 📁 Project Structure
+
+```text
 src/
-  components/                Header, Sidebar, SearchBar, IconGrid, IconCard, IconPreview
-  hooks/                     useIcons, useTheme, useLanguage, useFavorites
-  utils/                     search (ranked filtering), svg (load/build/copy/download)
-  data/                      icons (cached loaders), collections (descriptors)
-  locales/                   en, fa
+├── components/
+├── data/
+├── hooks/
+├── lib/
+├── pages/
+├── styles/
+└── types/
 ```
 
-## Collections & licenses
+## 🗺️ Roadmap
 
-| Collection | Icons | License | Style |
-| --- | --- | --- | --- |
-| [Lucide](https://lucide.dev) | 2,081 | ISC | stroke |
-| [Tabler](https://tabler.io/icons) | 5,130 | MIT | stroke |
-| [Phosphor](https://phosphoricons.com) | 1,512 | MIT | fill |
+- [x] Multi-library icon search
+- [x] Favorites
+- [x] SVG preview
+- [x] SVG customization
+- [x] Copy & download
+- [x] Dark / light mode
+- [x] English / فارسی
+- [x] RTL support
+- [ ] Further search refinements
+- [ ] Performance improvements for very large icon collections
 
-The pipeline strips license comments from the SVG files; the licenses require attribution, which this section provides.
+## 📄 License
 
-## Notes
+See the project license and individual icon-library licenses for details.
 
-- **Fully offline** — fonts (Inter, JetBrains Mono, Vazirmatn) and all SVGs are bundled; the app makes no external requests.
-- **Bilingual search** — Persian keywords are generated at build time from a curated English→Persian dictionary (`scripts/fa-dictionary.json`, ~540 common words; ~88% of icons covered). To extend it, add entries and run `npm run icons:build -- --force`.
-- Metadata loads first (~2 MB total, including Persian keywords); SVG text is fetched per icon on demand and cached.
-- The grid renders in 150-card chunks via `IntersectionObserver` — smooth with 8,723 icons, no virtualization.
-- Persistence keys: `iv:theme`, `iv:lang`, `iv:favorites`.
+---
+
+Made for developers and designers who just want to **find the right icon quickly**.
